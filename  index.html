@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#17152b">
+<title>Lucky Studio — Prototype 0.1</title>
+<style>
+:root{color-scheme:dark;--bg:#11101d;--panel:#201e32;--panel2:#292640;--gold:#ffc857;--cream:#fff5df;--muted:#b9b4ca;--green:#76e0ad}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#30294a 0,#11101d 48%);color:var(--cream);font:16px system-ui,-apple-system,sans-serif;min-height:100vh}
+main{max-width:620px;margin:auto;padding:22px 16px 36px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.logo{font-weight:900;font-size:22px;letter-spacing:-.7px}.logo span{color:var(--gold)}
+.tag{font-size:11px;color:var(--muted);border:1px solid #514b68;border-radius:20px;padding:6px 10px}
+h1{font-size:25px;margin:8px 0 5px}p{color:var(--muted);line-height:1.45;margin:0 0 16px;font-size:14px}
+.stage{background:linear-gradient(145deg,#f3c98d,#eaa86f);border-radius:24px;min-height:300px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:0 16px 40px #0005}
+.stage:before{content:"";position:absolute;width:280px;height:280px;border-radius:50%;background:#ffe7bb66;top:-115px;right:-65px}
+.scene-label{position:absolute;top:14px;left:15px;background:#261d2bba;color:#fff4df;border-radius:20px;padding:7px 11px;font-size:11px;z-index:2}
+.character{width:245px;max-width:75%;position:relative;z-index:1;filter:drop-shadow(0 12px 8px #74462c40)}
+.mouth{transform-origin:center;transition:transform .07s ease}
+.stage.talking .mouth{transform:scaleY(1.75)}
+.status{display:flex;align-items:center;gap:8px;margin:13px 2px 18px;font-size:12px;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:#777}
+.dot.live{background:#ff6262;box-shadow:0 0 0 5px #ff626222}
+.panel{background:var(--panel);border:1px solid #39354f;border-radius:20px;padding:17px;margin-top:14px}
+.panel h2{font-size:16px;margin:0 0 5px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:13px}
+button{border:0;border-radius:14px;padding:14px 12px;font:700 14px system-ui;cursor:pointer}
+button:disabled{opacity:.42;cursor:not-allowed}
+.primary{background:var(--gold);color:#241b26}.secondary{background:var(--panel2);color:var(--cream);border:1px solid #4a4561}
+.record{background:#ff6b70;color:#2b111c}.full{width:100%;margin-top:10px}
+.small{font-size:12px;color:var(--muted);margin-top:10px}
+audio{width:100%;margin-top:12px;display:none}
+.notice{background:#28243c;border-left:3px solid var(--gold);padding:12px;border-radius:10px;color:#d8d2e5;font-size:12px;line-height:1.5;margin-top:16px}
+@media(min-width:560px){main{padding-top:30px}.stage{min-height:360px}.character{width:280px}}
+</style>
+</head>
+<body>
+<main>
+<header><div class="logo">LUCKY <span>STUDIO</span></div><div class="tag">PERSONAL BUILD · v0.1</div></header>
+<h1>Bring your character to life.</h1>
+<p>Record your own voice. Lucky will move his mouth when the recording plays.</p>
+
+<section class="stage" id="stage" aria-label="Animated cartoon character preview">
+<div class="scene-label">SCENE 01 · THE TALKING GUY</div>
+<svg class="character" viewBox="0 0 260 300" role="img" aria-label="A friendly African cartoon character wearing a green shirt">
+ <ellipse cx="130" cy="282" rx="83" ry="12" fill="#81502f" opacity=".22"/>
+ <path d="M49 276 Q53 215 91 202 L169 202 Q207 215 211 276Z" fill="#237a50"/>
+ <path d="M104 205 L130 236 L156 205" fill="#f0c18d"/>
+ <path d="M119 228 L130 239 L141 228" fill="#f8f0df"/>
+ <rect x="113" y="176" width="34" height="39" rx="13" fill="#8d4b2e"/>
+ <ellipse cx="130" cy="117" rx="82" ry="91" fill="#995532"/>
+ <path d="M51 111 Q43 37 111 25 Q178 9 207 77 Q182 51 159 53 Q110 70 51 111Z" fill="#17151b"/>
+ <path d="M55 94 Q75 39 127 39 Q176 38 201 91 Q177 70 155 74 Q105 88 55 94Z" fill="#17151b"/>
+ <ellipse cx="98" cy="119" rx="10" ry="13" fill="#fff8e9"/>
+ <ellipse cx="161" cy="119" rx="10" ry="13" fill="#fff8e9"/>
+ <ellipse cx="100" cy="122" rx="4.5" ry="7" fill="#211820"/>
+ <ellipse cx="159" cy="122" rx="4.5" ry="7" fill="#211820"/>
+ <path d="M84 99 Q98 91 111 98 M147 98 Q162 91 175 99" stroke="#211820" stroke-width="6" stroke-linecap="round" fill="none"/>
+ <path d="M130 125 Q117 145 131 148 Q140 148 145 141" stroke="#713b29" stroke-width="4" fill="none" stroke-linecap="round"/>
+ <ellipse cx="75" cy="148" rx="13" ry="7" fill="#c66c52" opacity=".45"/>
+ <ellipse cx="184" cy="148" rx="13" ry="7" fill="#c66c52" opacity=".45"/>
+ <path d="M105 164 Q130 179 155 164" stroke="#4c201e" stroke-width="5" fill="none" stroke-linecap="round"/>
+ <ellipse class="mouth" cx="130" cy="165" rx="15" ry="4.5" fill="#401b20"/>
+ <path d="M115 165 Q130 170 145 165" stroke="#f2b1a0" stroke-width="2" fill="none"/>
+ <path d="M70 206 Q130 222 190 206" stroke="#145b3a" stroke-width="5" fill="none"/>
+ <circle cx="130" cy="250" r="5" fill="#ffc857"/>
+</svg>
+</section>
+<div class="status"><span class="dot" id="dot"></span><span id="statusText">Ready — record your voice below</span></div>
+
+<section class="panel">
+<h2>🎙️ Your voice</h2>
+<p>Tap record, speak naturally, then stop. Allow microphone access when Safari asks.</p>
+<div class="controls">
+<button class="record" id="recordBtn">● Start recording</button>
+<button class="secondary" id="stopBtn" disabled>■ Stop recording</button>
+</div>
+<audio id="player" controls playsinline></audio>
+<button class="primary full" id="playBtn" disabled>▶ Play with mouth animation</button>
+<div class="small" id="duration">No recording yet.</div>
+</section>
+
+<div class="notice"><b>First test:</b> This is a prototype, not the finished app. Microphone recording works when this page is opened from a secure website (HTTPS). We'll put it online for free in the next step so it can work properly on your iPhone.</div>
+</main>
+<script>
+const recordBtn=document.getElementById('recordBtn'),stopBtn=document.getElementById('stopBtn'),playBtn=document.getElementById('playBtn');
+const player=document.getElementById('player'),stage=document.getElementById('stage'),dot=document.getElementById('dot'),statusText=document.getElementById('statusText'),duration=document.getElementById('duration');
+let recorder,stream,chunks=[],audioUrl=null,audioCtx,source,analyser,raf;
+function setStatus(t,live=false){statusText.textContent=t;dot.classList.toggle('live',live)}
+recordBtn.onclick=async()=>{
+ try{
+  stream=await navigator.mediaDevices.getUserMedia({audio:true});
+  chunks=[];
+  const mime=['audio/mp4','audio/webm;codecs=opus','audio/webm'].find(x=>window.MediaRecorder&&MediaRecorder.isTypeSupported(x));
+  recorder=new MediaRecorder(stream,mime?{mimeType:mime}:{});
+  recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};
+  recorder.onstop=()=>{
+   const blob=new Blob(chunks,{type:recorder.mimeType||'audio/mp4'});
+   if(audioUrl)URL.revokeObjectURL(audioUrl);
+   audioUrl=URL.createObjectURL(blob);player.src=audioUrl;player.style.display='block';
+   playBtn.disabled=false;duration.textContent='Recording ready. Tap play to hear it with Lucky.';
+   stream.getTracks().forEach(t=>t.stop());setStatus('Recording saved in this page');
+  };
+  recorder.start();recordBtn.disabled=true;stopBtn.disabled=false;setStatus('Recording… speak now',true);
+ }catch(e){setStatus('Microphone blocked. Open this page on HTTPS and allow microphone access.');duration.textContent=e.message||'Microphone permission is needed.'}
+};
+stopBtn.onclick=()=>{if(recorder&&recorder.state!=='inactive'){recorder.stop();recordBtn.disabled=false;stopBtn.disabled=true}};
+async function animatePlayback(){
+ if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+ if(audioCtx.state==='suspended')await audioCtx.resume();
+ if(source){try{source.disconnect()}catch(e){}}
+ source=audioCtx.createMediaElementSource(player);
+ analyser=audioCtx.createAnalyser();analyser.fftSize=256;
+ source.connect(analyser);analyser.connect(audioCtx.destination);
+ const data=new Uint8Array(analyser.frequencyBinCount);
+ const tick=()=>{
+  analyser.getByteFrequencyData(data);
+  let sum=0;for(let i=0;i<data.length;i++)sum+=data[i];
+  const level=sum/data.length;
+  stage.classList.toggle('talking',level>10);
+  if(!player.paused)raf=requestAnimationFrame(tick);else{stage.classList.remove('talking');cancelAnimationFrame(raf)}
+ };
+ player.currentTime=0;await player.play();tick();setStatus('Lucky is talking…',true);
+}
+playBtn.onclick=()=>{if(!audioUrl)return;animatePlayback().catch(e=>{setStatus('Tap play again to start audio');duration.textContent=e.message})};
+player.onended=()=>{stage.classList.remove('talking');setStatus('Ready — record another line')};
+player.onpause=()=>stage.classList.remove('talking');
+</script>
+</body>
+</html>
